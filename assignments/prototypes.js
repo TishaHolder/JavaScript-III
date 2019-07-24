@@ -58,11 +58,10 @@ CharacterStats.prototype.takeDamage = function () {
 
 function Humanoid (humanoidAttributes) {
   GameObject.call(this, humanoidAttributes);//sets Humanoid's prototype to GameObject's prototype
-  CharacterStats.call(this, humanoidAttributes);//sets Humanoid's prototype to CharacterStat's prototype
-  
+  CharacterStats.call(this, humanoidAttributes);//sets Humanoid's prototype to CharacterStat's prototype  
   this.team = humanoidAttributes.team;
   this.weapons = humanoidAttributes.weapons;
-  this.language = humanoidAttributes.language;
+  this.language = humanoidAttributes.language;  
 }
 
 //in order to ‘inherit’ the prototype methods from the GameObject & CharacterStat prototypes
@@ -74,7 +73,16 @@ Humanoid.prototype.greet = function() {
   console.log(`${this.name} offers a greeting in ${this.language}`);
 }
 
-
+//==============================created for stretch task==========================
+Humanoid.prototype.determineDestruction = function() {
+  if(this.healthPoints <= 0)
+  {
+    this.destroy();
+  }
+  else {
+    console.log (`Congratulations ${this.name}, you are still in the game!`)
+  }
+}
  
 /*
   * Inheritance chain: GameObject -> CharacterStats -> Humanoid
@@ -160,19 +168,25 @@ Humanoid.prototype.greet = function() {
   //in order to ‘inherit’ the prototype methods from the Humanoid prototypes
   Villain.prototype = Object.create(Humanoid.prototype);
 
-  /*prototype method - remove health points from objects which could result in destruction if health gets to 0 or drops below 0;*/
-  Villain.prototype.removeHealthPoints = function() {
-    
-    /*return this.healthpoints--;
+  //prototype methods - add/remove health points from villain objects
+  Villain.prototype.doesEvil = function() {
 
-    if(this.healthPoints) {
-      return true; 
-    }   
-    else {
-      return false;
-    }*/  
-   
+    this.healthPoints -= 10;
+      
   }
+
+  Villain.prototype.evilThoughts = function() {
+
+    this.healthPoints -= 10;
+      
+  }
+
+  Villain.prototype.defeatsTheHero = function() {
+
+    this.healthPoints += 20;
+      
+  }
+
 
   //==============Hero Constructor Function
   function Hero (heroAttributes) {
@@ -183,8 +197,93 @@ Humanoid.prototype.greet = function() {
   //in order to ‘inherit’ the prototype methods from the Humanoid prototypes
   Hero.prototype = Object.create(Humanoid.prototype);
 
-  //prototype method - add health points to non-villain objects tif health gets to 0 or drops below 0;
-  Hero.prototype.addHealthPoints = function() {
+  //prototype method - add or remove points to non-villain objects 
+  Hero.prototype.doesGood = function() {
+    this.healthPoints += 10;
     
   }
+
+  Hero.prototype.goodThoughts = function() {
+    this.healthPoints += 10;
+    
+  }
+
+  Hero.prototype.defeatsTheVillain = function() {
+    this.healthPoints += 20;
+    
+  }
+
+  //===================Hero & Villain Objects==========================
+  const villain = new Villain({
+    createdAt: new Date(),
+    dimensions: {
+      length: 1,
+      width: 2,
+      height: 4,
+    },
+    healthPoints: 10,
+    name: 'Peter-Villain',
+    team: 'Forest Kingdom',
+    weapons: [
+      'Bow',
+      'Dagger',
+    ],
+    language: 'English',
+  });
+
+  const hero = new Hero({
+    createdAt: new Date(),
+    dimensions: {
+      length: 1,
+      width: 2,
+      height: 4,
+    },
+    healthPoints: 10,
+    name: 'Pan-Hero',
+    team: 'The Round Table',
+    weapons: [
+      'Bow',
+      'Dagger',
+    ],
+    language: 'Spanish',
+  });
+
+
+  console.log("************************STRETCH TASK*****************************************");
+
+  //method battle
+  villain.evilThoughts();
+  console.log(`The villain is thinking evil thoughts......He now has ${villain.healthPoints} points`);
+
+  hero.doesGood();
+  console.log(`The hero did a good deed......He now has ${hero.healthPoints} points`);
+
+  villain.doesEvil();
+  console.log(`The villain did something evil......He now has ${villain.healthPoints} points`);
+
+  hero.goodThoughts();
+  console.log(`The hero is thinking good thoughts......He now has ${hero.healthPoints} points`);
+
+  villain.doesEvil();
+  console.log(`The villain did something evil......He now has ${villain.healthPoints} points`);
+
+  hero.defeatsTheVillain();
+  console.log(`The hero defeated the villain......He now has ${hero.healthPoints} points`);
+
+  villain.defeatsTheHero();
+  console.log(`The villain defeats the hero......He now has ${villain.healthPoints} points`);
+
+  //determines who should get destroyed
+  villain.determineDestruction();
+  hero.determineDestruction();
+
+ 
+
+
+
+  
+  
+
+
+
 
