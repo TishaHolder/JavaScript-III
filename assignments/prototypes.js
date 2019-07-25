@@ -57,7 +57,7 @@ CharacterStats.prototype.takeDamage = function () {
 */
 
 function Humanoid (humanoidAttributes) {
-  GameObject.call(this, humanoidAttributes);//sets Humanoid's prototype to GameObject's prototype
+  //GameObject.call(this, humanoidAttributes);//sets Humanoid's prototype to GameObject's prototype
   CharacterStats.call(this, humanoidAttributes);//sets Humanoid's prototype to CharacterStat's prototype  
   this.team = humanoidAttributes.team;
   this.weapons = humanoidAttributes.weapons;
@@ -65,7 +65,7 @@ function Humanoid (humanoidAttributes) {
 }
 
 //in order to ‘inherit’ the prototype methods from the GameObject & CharacterStat prototypes
-Humanoid.prototype = Object.create(GameObject.prototype);
+//Humanoid.prototype = Object.create(GameObject.prototype);
 Humanoid.prototype = Object.create(CharacterStats.prototype);
 
 //prototype method
